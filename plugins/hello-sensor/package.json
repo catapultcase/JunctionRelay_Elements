@@ -1,0 +1,52 @@
+{
+  "name": "@junctionrelay/element-hello-sensor",
+  "version": "1.0.0",
+  "description": "Reference element plugin — displays a sensor value with configurable styling",
+  "type": "module",
+  "main": "dist/index.js",
+  "files": [
+    "dist"
+  ],
+  "junctionrelay": {
+    "type": "element",
+    "entry": "dist/index.js",
+    "elementType": "hello-sensor",
+    "displayName": "Hello Sensor",
+    "description": "A simple sensor display with configurable color, font size, and label",
+    "category": "Data",
+    "icon": "Sensors",
+    "sensorBound": true,
+    "defaultSize": {
+      "width": 200,
+      "height": 100
+    },
+    "defaultProperties": {
+      "sensorTag": "",
+      "label": "Hello",
+      "fontSize": 24,
+      "textColor": "#FFFFFF",
+      "backgroundColor": "transparent",
+      "showLabel": true,
+      "showUnit": true
+    },
+    "layoutModes": [
+      "composite"
+    ]
+  },
+  "scripts": {
+    "build": "esbuild src/index.tsx --bundle --platform=browser --format=esm --jsx=automatic --external:react --external:react-dom --external:react/jsx-runtime --external:@mui/material --external:@mui/icons-material --external:@emotion/react --external:@emotion/styled --external:@junctionrelay/element-sdk --outfile=dist/index.js",
+    "clean": "rm -rf dist"
+  },
+  "dependencies": {
+    "@junctionrelay/element-sdk": "1.0.0"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "@emotion/react": "^11.14.0",
+    "@emotion/styled": "^11.14.1",
+    "@mui/material": "^7.3.8",
+    "@types/react": "^19.2.14",
+    "react": "^19.2.4",
+    "react-dom": "^19.2.4"
+  }
+}
