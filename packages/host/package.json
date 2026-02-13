@@ -1,0 +1,22 @@
+{
+  "name": "@junctionrelay/element-host",
+  "version": "1.0.0",
+  "description": "Plugin host for discovering and registering JunctionRelay element plugins",
+  "license": "MIT",
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": ["dist"],
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "test": "npx tsx --test src/__tests__/*.test.ts",
+    "clean": "rm -rf dist"
+  },
+  "dependencies": {
+    "@junctionrelay/element-protocol": "1.0.0"
+  },
+  "devDependencies": {
+    "@types/react": "^19.2.14",
+    "tsx": "^4.21.0"
+  }
+}
