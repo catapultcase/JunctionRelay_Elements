@@ -50,6 +50,8 @@ export function validateManifest(manifest: unknown): ValidationResult {
   // description
   if (typeof m.description !== 'string' || m.description.length === 0) {
     errors.push('description must be a non-empty string');
+  } else if (m.description.length > 120) {
+    errors.push(`description must be 120 characters or fewer (got ${m.description.length})`);
   }
 
   // category

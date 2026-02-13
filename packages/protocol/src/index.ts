@@ -107,7 +107,7 @@ export interface ElementPluginManifest {
   /** Human-readable name shown in the Library palette (e.g. 'Stock Ticker'). */
   displayName: string;
 
-  /** Short description shown in the Library palette and marketplace. */
+  /** Short description shown in the Library palette and marketplace (max 120 characters). */
   description: string;
 
   /** Category for grouping in the Library palette. */

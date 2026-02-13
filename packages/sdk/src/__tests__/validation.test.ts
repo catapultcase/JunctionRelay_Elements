@@ -62,6 +62,17 @@ describe('validateManifest', () => {
     assert.equal(result.valid, true);
   });
 
+  it('rejects description longer than 120 characters', () => {
+    const result = validateManifest({ ...VALID_MANIFEST, description: 'A'.repeat(121) });
+    assert.equal(result.valid, false);
+    assert.ok(result.errors.some(e => e.includes('120 characters or fewer')));
+  });
+
+  it('accepts description at exactly 120 characters', () => {
+    const result = validateManifest({ ...VALID_MANIFEST, description: 'A'.repeat(120) });
+    assert.equal(result.valid, true);
+  });
+
   it('rejects invalid category', () => {
     const result = validateManifest({ ...VALID_MANIFEST, category: 'Custom' });
     assert.equal(result.valid, false);
