@@ -23,7 +23,7 @@ function writePlugin(name: string, elementType: string, extra?: Record<string, u
         description: `Test element ${name}`,
         category: 'Data',
         icon: 'Star',
-        sensorBound: false,
+        sensorTagCompatible: false,
         defaultSize: { width: 200, height: 100 },
         defaultProperties: {},
       },

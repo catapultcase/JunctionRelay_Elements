@@ -64,9 +64,9 @@ export function validateManifest(manifest: unknown): ValidationResult {
     errors.push('icon must be a non-empty string (MUI icon name)');
   }
 
-  // sensorBound
-  if (typeof m.sensorBound !== 'boolean') {
-    errors.push('sensorBound must be a boolean');
+  // sensorTagCompatible
+  if (typeof m.sensorTagCompatible !== 'boolean') {
+    errors.push('sensorTagCompatible must be a boolean');
   }
 
   // defaultSize

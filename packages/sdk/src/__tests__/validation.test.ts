@@ -10,7 +10,7 @@ const VALID_MANIFEST = {
   description: 'Real-time stock price display with sparkline',
   category: 'Data',
   icon: 'TrendingUp',
-  sensorBound: true,
+  sensorTagCompatible: true,
   defaultSize: { width: 300, height: 80 },
   defaultProperties: {
     sensorTag: '',
@@ -68,10 +68,10 @@ describe('validateManifest', () => {
     assert.ok(result.errors.some(e => e.includes('category')));
   });
 
-  it('rejects non-boolean sensorBound', () => {
-    const result = validateManifest({ ...VALID_MANIFEST, sensorBound: 'yes' });
+  it('rejects non-boolean sensorTagCompatible', () => {
+    const result = validateManifest({ ...VALID_MANIFEST, sensorTagCompatible: 'yes' });
     assert.equal(result.valid, false);
-    assert.ok(result.errors.some(e => e.includes('sensorBound')));
+    assert.ok(result.errors.some(e => e.includes('sensorTagCompatible')));
   });
 
   it('rejects missing defaultSize dimensions', () => {
@@ -107,7 +107,7 @@ describe('validateManifest', () => {
       description: '',
       category: 'Wrong',
       icon: '',
-      sensorBound: 'no',
+      sensorTagCompatible: 'no',
       defaultSize: null,
       defaultProperties: null,
     });

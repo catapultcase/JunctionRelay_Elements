@@ -16,7 +16,7 @@
     "category": "Data",
     "icon": "Sensors",
     "emoji": "👋",
-    "sensorBound": true,
+    "sensorTagCompatible": true,
     "defaultSize": {
       "width": 200,
       "height": 100

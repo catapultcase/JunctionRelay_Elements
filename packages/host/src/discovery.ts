@@ -165,8 +165,8 @@ function validateElementManifest(m: Record<string, unknown>): string[] {
   if (typeof m.icon !== 'string' || m.icon.length === 0) {
     errors.push('missing icon');
   }
-  if (typeof m.sensorBound !== 'boolean') {
-    errors.push('missing sensorBound');
+  if (typeof m.sensorTagCompatible !== 'boolean') {
+    errors.push('missing sensorTagCompatible');
   }
   if (
     m.defaultSize === null ||

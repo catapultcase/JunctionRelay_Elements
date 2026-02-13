@@ -119,8 +119,8 @@ export interface ElementPluginManifest {
    */
   icon: string;
 
-  /** Whether this element binds to sensor data via sensorTag. */
-  sensorBound: boolean;
+  /** Whether this element accepts sensor data via sensorTag properties. */
+  sensorTagCompatible: boolean;
 
   /** Default dimensions when placed on the canvas. */
   defaultSize: { width: number; height: number };
@@ -159,7 +159,7 @@ export interface ElementRendererProps {
 
   /**
    * Live sensor values keyed by sensorTag.
-   * Only populated for sensor-bound elements.
+   * Only populated for sensorTag-compatible elements.
    * Each value is a ResolvedSensorValue with { value, unit, label }.
    */
   resolvedValues: Record<string, ResolvedSensorValue>;

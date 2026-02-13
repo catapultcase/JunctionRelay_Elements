@@ -19,7 +19,7 @@ describe('integration: discover real plugins/ directory', () => {
     assert.equal(hello.manifest.type, 'element');
     assert.equal(hello.manifest.displayName, 'Hello Sensor');
     assert.equal(hello.manifest.category, 'Data');
-    assert.equal(hello.manifest.sensorBound, true);
+    assert.equal(hello.manifest.sensorTagCompatible, true);
     assert.equal(hello.entry, 'dist/index.js');
   });
 

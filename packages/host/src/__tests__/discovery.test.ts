@@ -24,7 +24,7 @@ const VALID_MANIFEST = {
   description: 'Shows stock prices',
   category: 'Data',
   icon: 'TrendingUp',
-  sensorBound: true,
+  sensorTagCompatible: true,
   defaultSize: { width: 300, height: 80 },
   defaultProperties: { sensorTag: '' },
 };
