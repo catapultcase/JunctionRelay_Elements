@@ -15,6 +15,7 @@
     "description": "A simple sensor display with configurable color, font size, and label",
     "category": "Data",
     "icon": "Sensors",
+    "emoji": "👋",
     "sensorBound": true,
     "defaultSize": {
       "width": 200,
