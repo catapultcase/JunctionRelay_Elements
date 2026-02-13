@@ -1,0 +1,19 @@
+{
+  "name": "junctionrelay-elements",
+  "version": "1.0.0",
+  "private": true,
+  "description": "JunctionRelay Element Plugin System — manifest, protocol types, SDK, and plugins",
+  "license": "MIT",
+  "workspaces": [
+    "packages/*",
+    "plugins/*"
+  ],
+  "scripts": {
+    "build": "npm run build -w packages/protocol && npm run build --workspaces",
+    "clean": "npm run clean --workspaces --if-present"
+  },
+  "devDependencies": {
+    "typescript": "^5.7.0",
+    "@types/node": "^22.0.0"
+  }
+}

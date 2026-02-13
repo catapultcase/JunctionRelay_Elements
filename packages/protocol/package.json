@@ -1,0 +1,19 @@
+{
+  "name": "@junctionrelay/element-protocol",
+  "version": "1.0.0",
+  "description": "Type definitions and constants for JunctionRelay element plugins",
+  "license": "MIT",
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "clean": "rm -rf dist"
+  },
+  "devDependencies": {
+    "@types/react": "^19.2.14"
+  }
+}
