@@ -42,7 +42,45 @@ export const EXTERNAL_PACKAGES = [
   '@mui/icons-material',
   '@emotion/react',
   '@emotion/styled',
+  '@junctionrelay/element-sdk',
 ] as const;
+
+// ---------------------------------------------------------------------------
+// Host Context (shared services the host provides to plugins via React context)
+// ---------------------------------------------------------------------------
+
+/**
+ * Font loading services provided by the host.
+ * Wraps the FrameEngine FontLoader so plugins don't need to bundle it.
+ */
+export interface ElementHostFonts {
+  /** Load a Google Font by family name. Resolves when the font is ready. */
+  loadGoogleFont(fontFamily: string): Promise<void>;
+
+  /** Load the pixel fonts CSS (Tom Thumb, Press Start 2P, Pixel Operator). */
+  loadPixelFonts(): void;
+
+  /** Check whether a font family has been loaded. */
+  isFontLoaded(fontFamily: string): boolean;
+
+  /** Check whether a font family is a pixel font. */
+  isPixelFont(fontFamily: string): boolean;
+
+  /** The list of available pixel font families. */
+  pixelFonts: readonly string[];
+}
+
+/**
+ * Host context provided to element plugins via React context.
+ * Plugins access this via the `useElementHost()` hook from the SDK.
+ *
+ * Designed for extension — future versions may add theme, assets,
+ * navigation, or notification services without breaking existing plugins.
+ */
+export interface ElementHostContext {
+  /** Font loading services. */
+  fonts: ElementHostFonts;
+}
 
 // ---------------------------------------------------------------------------
 // Plugin Manifest (package.json → junctionrelay field)

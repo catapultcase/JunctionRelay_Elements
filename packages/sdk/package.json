@@ -17,8 +17,17 @@
   "dependencies": {
     "@junctionrelay/element-protocol": "1.0.0"
   },
+  "peerDependencies": {
+    "react": ">=18"
+  },
+  "peerDependenciesMeta": {
+    "react": {
+      "optional": true
+    }
+  },
   "devDependencies": {
     "@types/react": "^19.2.14",
+    "react": "^19.1.0",
     "tsx": "^4.21.0"
   }
 }
