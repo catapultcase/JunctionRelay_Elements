@@ -5,7 +5,7 @@ import { validateManifest, parsePackageManifest } from '../validation.js';
 const VALID_MANIFEST = {
   type: 'element',
   entry: 'dist/index.js',
-  elementType: 'stock-ticker',
+  elementName: 'junctionrelay.stock-ticker',
   displayName: 'Stock Ticker',
   description: 'Real-time stock price display with sparkline',
   category: 'Data',
@@ -46,20 +46,21 @@ describe('validateManifest', () => {
     assert.ok(result.errors.some(e => e.includes('entry')));
   });
 
-  it('rejects invalid elementType format', () => {
-    const result = validateManifest({ ...VALID_MANIFEST, elementType: 'StockTicker' });
+  it('rejects invalid elementName format', () => {
+    const result = validateManifest({ ...VALID_MANIFEST, elementName: 'StockTicker' });
     assert.equal(result.valid, false);
-    assert.ok(result.errors.some(e => e.includes('kebab-case')));
+    assert.ok(result.errors.some(e => e.includes('dot-notation')));
   });
 
-  it('rejects elementType with spaces', () => {
-    const result = validateManifest({ ...VALID_MANIFEST, elementType: 'stock ticker' });
+  it('rejects elementName with spaces', () => {
+    const result = validateManifest({ ...VALID_MANIFEST, elementName: 'stock ticker' });
     assert.equal(result.valid, false);
   });
 
-  it('accepts single-word elementType', () => {
-    const result = validateManifest({ ...VALID_MANIFEST, elementType: 'gauge' });
-    assert.equal(result.valid, true);
+  it('rejects un-namespaced elementName', () => {
+    const result = validateManifest({ ...VALID_MANIFEST, elementName: 'gauge' });
+    assert.equal(result.valid, false);
+    assert.ok(result.errors.some(e => e.includes('dot-notation')));
   });
 
   it('rejects description longer than 120 characters', () => {
@@ -113,7 +114,7 @@ describe('validateManifest', () => {
     const result = validateManifest({
       type: 'collector',
       entry: '',
-      elementType: 'Bad Name',
+      elementName: 'Bad Name',
       displayName: '',
       description: '',
       category: 'Wrong',
@@ -137,7 +138,7 @@ describe('parsePackageManifest', () => {
     const result = parsePackageManifest(pkg);
     assert.notEqual(result.manifest, null);
     assert.equal(result.errors.length, 0);
-    assert.equal(result.manifest!.elementType, 'stock-ticker');
+    assert.equal(result.manifest!.elementName, 'junctionrelay.stock-ticker');
   });
 
   it('returns error when junctionrelay field is missing', () => {

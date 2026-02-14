@@ -52,7 +52,7 @@ Update the `junctionrelay` manifest — this is how the host app discovers your 
   "junctionrelay": {
     "type": "element",
     "entry": "dist/index.js",
-    "elementType": "yourname.my-thing",
+    "elementName": "yourname.my-thing",
     "displayName": "My Thing",
     "description": "Short description (max 120 chars)",
     "category": "Data",
@@ -70,7 +70,7 @@ Update the `junctionrelay` manifest — this is how the host app discovers your 
 
 **Required manifest fields:** See `ElementPluginManifest` in `packages/protocol/src/index.ts` for the full interface.
 
-**`elementType` namespacing:** Plugin element types must use `<namespace>.<name>` dot-notation where both segments are lowercase kebab-case (e.g. `yourname.my-thing`, `junctionrelay.hello-sensor`). This prevents collisions between plugins and built-in native types (`sensor`, `gauge`, `text`, etc.), which are un-namespaced. The regex is exported as `PLUGIN_ID_PATTERN` from `@junctionrelay/element-protocol`.
+**`elementName` namespacing:** Plugin element names must use `<namespace>.<name>` dot-notation where both segments are lowercase kebab-case (e.g. `yourname.my-thing`, `junctionrelay.hello-sensor`). This prevents collisions between plugins and built-in native types (`sensor`, `gauge`, `text`, etc.), which are un-namespaced. The regex is exported as `PLUGIN_ID_PATTERN` from `@junctionrelay/element-protocol`.
 
 **Categories:** `Data`, `Media`, `Visualization`, `Effects`, `Utility`
 
@@ -191,7 +191,7 @@ Build and pack in one step (works on all platforms):
 npm run build && npm run pack
 ```
 
-This produces `<elementType>.zip` containing `package.json` and `dist/index.js` — the only two files the host needs.
+This produces `<elementName>.zip` containing `package.json` and `dist/index.js` — the only two files the host needs.
 
 Drop the `.zip` file into the elements directory:
 

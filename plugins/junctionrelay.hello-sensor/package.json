@@ -10,7 +10,7 @@
   "junctionrelay": {
     "type": "element",
     "entry": "dist/index.js",
-    "elementType": "junctionrelay.hello-sensor",
+    "elementName": "junctionrelay.hello-sensor",
     "displayName": "Hello Sensor",
     "description": "A simple sensor display with configurable color, font size, and label",
     "category": "Data",

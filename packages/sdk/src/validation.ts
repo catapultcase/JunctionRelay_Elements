@@ -33,10 +33,10 @@ export function validateManifest(manifest: unknown): ValidationResult {
     errors.push('entry must be a non-empty string (e.g. "dist/index.js")');
   }
 
-  // elementType — must be namespaced dot-notation (e.g. 'namespace.name')
-  if (typeof m.elementType !== 'string' || !PLUGIN_ID_PATTERN.test(m.elementType)) {
+  // elementName — must be namespaced dot-notation (e.g. 'namespace.name')
+  if (typeof m.elementName !== 'string' || !PLUGIN_ID_PATTERN.test(m.elementName)) {
     errors.push(
-      `elementType must be namespaced dot-notation (e.g. 'junctionrelay.stock-ticker'), got '${String(m.elementType)}'`,
+      `elementName must be namespaced dot-notation (e.g. 'junctionrelay.stock-ticker'), got '${String(m.elementName)}'`,
     );
   }
 

@@ -10,7 +10,7 @@
   "junctionrelay": {
     "type": "element",
     "entry": "dist/index.js",
-    "elementType": "junctionrelay.beer-glass",
+    "elementName": "junctionrelay.beer-glass",
     "displayName": "Beer Glass",
     "description": "A beer glass that fills up to 100% when bound to a sensor tag percentage input",
     "category": "Visualization",

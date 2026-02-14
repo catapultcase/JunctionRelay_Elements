@@ -14,17 +14,17 @@ export const PROTOCOL_VERSION = '1.0.0';
  * Format: `<namespace>.<name>` — both segments lowercase kebab-case.
  * Examples: `junctionrelay.hello-sensor`, `catapultcase.stock-ticker`
  *
- * Native/built-in element types (sensor, gauge, text, etc.) do NOT use
- * this pattern — they remain un-namespaced. Only plugin element types
+ * Native/built-in element names (sensor, gauge, text, etc.) do NOT use
+ * this pattern — they remain un-namespaced. Only plugin element names
  * require the dot-separated namespace.
  */
 export const PLUGIN_ID_PATTERN = /^[a-z][a-z0-9]*(-[a-z0-9]+)*\.[a-z][a-z0-9]*(-[a-z0-9]+)*$/;
 
 /**
- * Returns true if the given element type ID is a plugin (has a dot namespace).
+ * Returns true if the given element name is a plugin (has a dot namespace).
  * Native built-in types like 'sensor', 'gauge', 'text' return false.
  */
-export function isPluginElementType(id: string): boolean {
+export function isPluginElementName(id: string): boolean {
   return id.includes('.');
 }
 
@@ -196,11 +196,11 @@ export interface ElementPluginManifest {
   entry: string;
 
   /**
-   * Unique element type identifier in namespaced dot-notation.
+   * Unique element name identifier in namespaced dot-notation.
    * Format: `<namespace>.<name>` (e.g. 'junctionrelay.hello-sensor', 'catapultcase.stock-ticker').
    * Both segments must be lowercase kebab-case. Must match PLUGIN_ID_PATTERN.
    */
-  elementType: string;
+  elementName: string;
 
   /** Human-readable name shown in the Library palette (e.g. 'Stock Ticker'). */
   displayName: string;
@@ -365,7 +365,7 @@ export interface DiscoveredElementPlugin {
 
 /**
  * Runtime registry entry for a loaded (or failed-to-load) element plugin.
- * The host maintains a Map<elementType, PluginElementDefinition>.
+ * The host maintains a Map<elementName, PluginElementDefinition>.
  */
 export interface PluginElementDefinition {
   /** The plugin manifest metadata. */
@@ -402,8 +402,8 @@ export interface RequiredPlugin {
   /** Always 'element' for element plugins. */
   type: 'element';
 
-  /** The elementType identifier (e.g. 'stock-ticker'). */
-  elementType: string;
+  /** The elementName identifier (e.g. 'stock-ticker'). */
+  elementName: string;
 
   /** Package name (e.g. '@junctionrelay/element-stock-ticker'). */
   name: string;

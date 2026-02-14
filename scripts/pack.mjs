@@ -10,10 +10,10 @@ import { deflateRawSync } from 'zlib';
 
 const pluginDir = process.cwd();
 const pkg = JSON.parse(readFileSync(join(pluginDir, 'package.json'), 'utf8'));
-const elementType = pkg.junctionrelay?.elementType;
+const elementName = pkg.junctionrelay?.elementName;
 
-if (!elementType) {
-  console.error('ERROR: package.json missing junctionrelay.elementType');
+if (!elementName) {
+  console.error('ERROR: package.json missing junctionrelay.elementName');
   process.exit(1);
 }
 
@@ -25,8 +25,8 @@ if (!existsSync(distFile)) {
 
 // Files to include in the zip (entryName → absolute path)
 const files = [
-  { name: `${elementType}/package.json`, path: join(pluginDir, 'package.json') },
-  { name: `${elementType}/dist/index.js`, path: distFile },
+  { name: `${elementName}/package.json`, path: join(pluginDir, 'package.json') },
+  { name: `${elementName}/dist/index.js`, path: distFile },
 ];
 
 // --- Minimal ZIP writer using Node.js built-ins ---
@@ -120,7 +120,7 @@ const entries = files.map(({ name, path }) => ({
 }));
 
 const zipData = createZip(entries);
-const zipFile = join(pluginDir, `${elementType}.zip`);
+const zipFile = join(pluginDir, `${elementName}.zip`);
 writeFileSync(zipFile, zipData);
 
-console.log(`Packed: ${elementType}.zip`);
+console.log(`Packed: ${elementName}.zip`);
