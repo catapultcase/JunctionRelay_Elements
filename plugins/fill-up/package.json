@@ -1,0 +1,51 @@
+{
+  "name": "@junctionrelay/element-fill-up",
+  "version": "1.0.0",
+  "description": "Beer glass element that fills from 0–100% based on a sensor tag value",
+  "type": "module",
+  "main": "dist/index.js",
+  "files": [
+    "dist"
+  ],
+  "junctionrelay": {
+    "type": "element",
+    "entry": "dist/index.js",
+    "elementType": "junctionrelay.fill-up",
+    "displayName": "Fill Up",
+    "description": "A beer glass that fills up to 100% when bound to a sensor tag percentage input",
+    "category": "Visualization",
+    "icon": "SportsBar",
+    "emoji": "\ud83c\udf7a",
+    "sensorTagCompatible": true,
+    "defaultSize": {
+      "width": 150,
+      "height": 250
+    },
+    "defaultProperties": {
+      "sensorTag": "",
+      "beerColor": "#F59E0B",
+      "foamColor": "#FEF3C7",
+      "glassColor": "rgba(255,255,255,0.3)",
+      "showPercentage": true,
+      "showBubbles": true
+    },
+    "layoutModes": [
+      "composite"
+    ]
+  },
+  "scripts": {
+    "build": "esbuild src/index.tsx --bundle --platform=browser --format=esm --jsx=automatic --external:react --external:react-dom --external:react/jsx-runtime --external:@mui/material --external:@mui/icons-material --external:@emotion/react --external:@emotion/styled --external:@junctionrelay/element-sdk --outfile=dist/index.js",
+    "pack": "rm -rf out && mkdir -p out/fill-up/dist && cp package.json out/fill-up/ && cp dist/index.js out/fill-up/dist/ && cd out && zip -r ../fill-up.zip fill-up && cd .. && rm -rf out",
+    "clean": "rm -rf dist out"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "@emotion/react": "^11.14.0",
+    "@emotion/styled": "^11.14.1",
+    "@mui/material": "^7.3.8",
+    "@types/react": "^19.2.14",
+    "esbuild": "^0.25.0",
+    "react": "^19.2.4",
+    "react-dom": "^19.2.4"
+  }
+}
