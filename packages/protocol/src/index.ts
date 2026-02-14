@@ -71,6 +71,60 @@ export const EXTERNAL_PACKAGES = [
 ] as const;
 
 // ---------------------------------------------------------------------------
+// Style Isolation Rules
+// ---------------------------------------------------------------------------
+
+/**
+ * Style isolation rules that all element plugins MUST follow.
+ *
+ * Plugin components are rendered inside the host app's DOM — they share the
+ * same document, stylesheets, and React tree. A plugin that injects global
+ * styles will break the host UI for every user.
+ *
+ * The host wraps plugins in a CSS containment boundary (`contain: layout paint;
+ * isolation: isolate`) which prevents layout and paint bleed. However, this
+ * does NOT prevent a plugin from injecting `<style>` tags or modifying
+ * `document.body.style`, which would still affect the global scope.
+ *
+ * Rules:
+ *
+ * 1. **No global style injection.** Plugins must not create `<style>` tags,
+ *    `<link>` stylesheet tags, or modify `document.body.style`. All styles
+ *    must be scoped to the plugin's own DOM subtree via inline styles,
+ *    CSS modules, or scoped CSS-in-JS (emotion/styled-components with the
+ *    host's shared instances).
+ *
+ * 2. **Use host font services for font loading.** Plugins must use
+ *    `useElementHost().fonts.loadGoogleFont()` instead of injecting their
+ *    own Google Fonts `<link>` tags. The host manages font loading centrally
+ *    and deduplicates requests.
+ *
+ * 3. **No broad CSS selectors.** Avoid `*`, `body`, `html`, `div`, or
+ *    bare element-type selectors. If using CSS-in-JS, the generated class
+ *    selectors are naturally scoped. If using `sx` props, ensure selectors
+ *    target only descendants of the plugin's root element.
+ *
+ * 4. **No `!important` on inherited properties.** While `!important` on
+ *    scoped selectors is acceptable, using it on inherited CSS properties
+ *    (font-family, color, font-size) with broad selectors can cascade
+ *    outside the containment boundary via CSS inheritance.
+ *
+ * Plugins that violate style isolation may be rejected from the marketplace.
+ *
+ * Background: MUI's default typography uses `font-family: "Roboto"`. If a
+ * plugin loads Roboto via Google Fonts (bypassing the host), the entire
+ * app UI shifts from the system font fallback to Roboto. The host prevents
+ * this by using a system font stack, but plugins should still follow the
+ * rules above to prevent other forms of style bleed.
+ */
+export const STYLE_ISOLATION_RULES = [
+  'No global style injection (<style> tags, <link> stylesheets, document.body.style)',
+  'Use useElementHost().fonts for font loading — do not inject Google Fonts <link> tags directly',
+  'No broad CSS selectors (*, body, html, bare element types)',
+  'No !important on inherited properties with broad selectors',
+] as const;
+
+// ---------------------------------------------------------------------------
 // Host Context (shared services the host provides to plugins via React context)
 // ---------------------------------------------------------------------------
 
