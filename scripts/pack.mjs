@@ -4,7 +4,7 @@
 // Reads the plugin's package.json, stages package.json + dist/index.js,
 // creates a .zip using only Node.js built-ins (no external tools needed).
 
-import { readFileSync, writeFileSync, existsSync, rmSync, mkdirSync } from 'fs';
+import { readFileSync, writeFileSync, existsSync } from 'fs';
 import { join } from 'path';
 import { deflateRawSync } from 'zlib';
 
