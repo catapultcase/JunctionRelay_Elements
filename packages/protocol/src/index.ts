@@ -234,7 +234,11 @@ export interface ElementPropertiesPanelProps {
   /** The currently selected element. */
   selectedElement: SelectedElement;
 
-  /** Callback to update element properties. Merges updates into existing properties. */
+  /**
+   * Callback to update the element. Send updates as `{ properties: { ...allProps, key: value } }`.
+   * The full properties object is required because the host performs a shallow merge at the
+   * PlacedElement level — it replaces `properties` entirely rather than deep-merging keys.
+   */
   onUpdateElement: (elementId: string, updates: Record<string, unknown>) => void;
 
   /** Callback to delete the element from the layout. */
