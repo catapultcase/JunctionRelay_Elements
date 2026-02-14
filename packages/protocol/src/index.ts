@@ -45,10 +45,12 @@ export type ElementCategory = (typeof ELEMENT_CATEGORIES)[number];
  *     context provided by the host. Must share the same React instance.
  *
  * HOW the host provides them:
- *   The FrameEngine PluginLoader exposes these on window globals, then rewrites
- *   the plugin's `import ... from "react"` statements to `const ... = window.__GLOBAL__`
- *   before loading the bundle via blob URL import(). Plugins don't need any
- *   special setup — standard esbuild externals are all that's required.
+ *   The FrameEngine PluginLoader exposes these on window globals and injects
+ *   a W3C Import Map that routes bare specifiers to ESM vendor shim files.
+ *   Each shim re-exports from the window global, so `import { useState } from "react"`
+ *   resolves to the host's React instance via native ES module loading.
+ *   Plugins don't need any special setup — standard esbuild externals are all
+ *   that's required.
  *
  * ANYTHING ELSE a plugin needs should be BUNDLED (not externalized).
  *   esbuild inlines non-external deps automatically. A plugin using chart.js,
