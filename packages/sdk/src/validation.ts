@@ -2,15 +2,13 @@
 // Manifest validation for element plugins
 // ============================================================================
 
-import { ELEMENT_CATEGORIES, type ElementPluginManifest } from '@junctionrelay/element-protocol';
+import { ELEMENT_CATEGORIES, PLUGIN_ID_PATTERN, type ElementPluginManifest } from '@junctionrelay/element-protocol';
 
 /** Result of validating a plugin manifest. */
 export interface ValidationResult {
   valid: boolean;
   errors: string[];
 }
-
-const ELEMENT_TYPE_PATTERN = /^[a-z][a-z0-9]*(-[a-z0-9]+)*$/;
 
 /**
  * Validate the `junctionrelay` field from a plugin's package.json.
@@ -35,10 +33,10 @@ export function validateManifest(manifest: unknown): ValidationResult {
     errors.push('entry must be a non-empty string (e.g. "dist/index.js")');
   }
 
-  // elementType
-  if (typeof m.elementType !== 'string' || !ELEMENT_TYPE_PATTERN.test(m.elementType)) {
+  // elementType — must be namespaced dot-notation (e.g. 'namespace.name')
+  if (typeof m.elementType !== 'string' || !PLUGIN_ID_PATTERN.test(m.elementType)) {
     errors.push(
-      `elementType must be lowercase kebab-case (e.g. 'stock-ticker'), got '${String(m.elementType)}'`,
+      `elementType must be namespaced dot-notation (e.g. 'junctionrelay.stock-ticker'), got '${String(m.elementType)}'`,
     );
   }
 

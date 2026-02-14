@@ -10,7 +10,7 @@
   "junctionrelay": {
     "type": "element",
     "entry": "dist/index.js",
-    "elementType": "hello-sensor",
+    "elementType": "junctionrelay.hello-sensor",
     "displayName": "Hello Sensor",
     "description": "A simple sensor display with configurable color, font size, and label",
     "category": "Data",
@@ -36,10 +36,8 @@
   },
   "scripts": {
     "build": "esbuild src/index.tsx --bundle --platform=browser --format=esm --jsx=automatic --external:react --external:react-dom --external:react/jsx-runtime --external:@mui/material --external:@mui/icons-material --external:@emotion/react --external:@emotion/styled --external:@junctionrelay/element-sdk --outfile=dist/index.js",
-    "clean": "rm -rf dist"
-  },
-  "dependencies": {
-    "@junctionrelay/element-sdk": "1.0.0"
+    "pack": "rm -rf out && mkdir -p out/hello-sensor/dist && cp package.json out/hello-sensor/ && cp dist/index.js out/hello-sensor/dist/ && cd out && zip -r ../hello-sensor.zip hello-sensor && cd .. && rm -rf out",
+    "clean": "rm -rf dist out"
   },
   "license": "MIT",
   "devDependencies": {
@@ -47,6 +45,7 @@
     "@emotion/styled": "^11.14.1",
     "@mui/material": "^7.3.8",
     "@types/react": "^19.2.14",
+    "esbuild": "^0.25.0",
     "react": "^19.2.4",
     "react-dom": "^19.2.4"
   }

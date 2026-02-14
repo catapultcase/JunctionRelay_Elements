@@ -10,6 +10,25 @@
 export const PROTOCOL_VERSION = '1.0.0';
 
 /**
+ * Regex for validating namespaced plugin identifiers.
+ * Format: `<namespace>.<name>` — both segments lowercase kebab-case.
+ * Examples: `junctionrelay.hello-sensor`, `catapultcase.stock-ticker`
+ *
+ * Native/built-in element types (sensor, gauge, text, etc.) do NOT use
+ * this pattern — they remain un-namespaced. Only plugin element types
+ * require the dot-separated namespace.
+ */
+export const PLUGIN_ID_PATTERN = /^[a-z][a-z0-9]*(-[a-z0-9]+)*\.[a-z][a-z0-9]*(-[a-z0-9]+)*$/;
+
+/**
+ * Returns true if the given element type ID is a plugin (has a dot namespace).
+ * Native built-in types like 'sensor', 'gauge', 'text' return false.
+ */
+export function isPluginElementType(id: string): boolean {
+  return id.includes('.');
+}
+
+/**
  * Layout modes that elements can declare support for.
  * - composite: Standard free-form canvas (default)
  * - pixel: Pixel-grid mode with restricted element palette
@@ -177,9 +196,9 @@ export interface ElementPluginManifest {
   entry: string;
 
   /**
-   * Unique element type identifier (e.g. 'stock-ticker').
-   * Used as the discriminator in layout configs and the plugin registry.
-   * Must be lowercase, kebab-case, no spaces.
+   * Unique element type identifier in namespaced dot-notation.
+   * Format: `<namespace>.<name>` (e.g. 'junctionrelay.hello-sensor', 'catapultcase.stock-ticker').
+   * Both segments must be lowercase kebab-case. Must match PLUGIN_ID_PATTERN.
    */
   elementType: string;
 

@@ -23,6 +23,8 @@ cp -r plugins/hello-sensor /path/to/my-plugin
 cd /path/to/my-plugin
 ```
 
+**Standalone plugins work out of the box.** The reference plugin has no runtime dependencies — only devDependencies for type checking and building. `npm install` will work immediately outside the monorepo. The `@junctionrelay/element-sdk` import in your source code is externalized by esbuild (left as-is in the bundle) and resolved by the host app at runtime.
+
 ### 2. Edit `package.json`
 
 Update the `junctionrelay` manifest — this is how the host app discovers your plugin:
@@ -36,7 +38,7 @@ Update the `junctionrelay` manifest — this is how the host app discovers your 
   "junctionrelay": {
     "type": "element",
     "entry": "dist/index.js",
-    "elementType": "my-thing",
+    "elementType": "yourname.my-thing",
     "displayName": "My Thing",
     "description": "Short description (max 120 chars)",
     "category": "Data",
@@ -53,6 +55,8 @@ Update the `junctionrelay` manifest — this is how the host app discovers your 
 ```
 
 **Required manifest fields:** See `ElementPluginManifest` in `packages/protocol/src/index.ts` for the full interface.
+
+**`elementType` namespacing:** Plugin element types must use `<namespace>.<name>` dot-notation where both segments are lowercase kebab-case (e.g. `yourname.my-thing`, `junctionrelay.hello-sensor`). This prevents collisions between plugins and built-in native types (`sensor`, `gauge`, `text`, etc.), which are un-namespaced. The regex is exported as `PLUGIN_ID_PATTERN` from `@junctionrelay/element-protocol`.
 
 **Categories:** `Data`, `Media`, `Visualization`, `Effects`, `Utility`
 
@@ -165,11 +169,20 @@ This runs esbuild to produce `dist/index.js` — a single ESM bundle.
 
 **Using `.jsx` vs `.tsx`:** Both work. If you use `.jsx`, you only need `esbuild` as a devDependency — no TypeScript or type packages needed. If you use `.tsx`, you'll also need `@types/react` and a `tsconfig.json` (see hello-sensor for the setup).
 
-**Standalone plugins** (outside this monorepo): If your plugin is NOT inside this monorepo, the `@junctionrelay/element-sdk` dependency in `package.json` won't resolve from npm (it's not published). That's fine — since it's externalized in esbuild, it doesn't need to be installed. Just remove it from `dependencies`. The import will be left as-is in the bundle and resolved by the host at runtime.
+### 5. Pack and Deploy
 
-### 5. Deploy
+Run `npm run pack` to produce a `.zip` file containing only the two files the host needs:
 
-Copy your plugin folder (must include `package.json` and `dist/index.js`) to the elements directory:
+```bash
+npm run pack
+# Produces: hello-sensor.zip
+#   hello-sensor/
+#     package.json
+#     dist/
+#       index.js
+```
+
+To install locally, extract the zip into the elements directory:
 
 | App | Path |
 |-----|------|
@@ -177,7 +190,7 @@ Copy your plugin folder (must include `package.json` and `dist/index.js`) to the
 | **Server (Docker)** | `/app/data/elements/` |
 | **XSD (Windows)** | `%APPDATA%\JunctionRelay_XSD\elements\` |
 
-Restart the app. Your element appears in the Library palette with the icon, name, and description from the manifest. Drag it onto any layout canvas.
+Only `package.json` and `dist/index.js` are needed — do not deploy `src/`, `node_modules/`, or config files. Restart the app. Your element appears in the Library palette with the icon, name, and description from the manifest. Drag it onto any layout canvas.
 
 ## Style Isolation Rules
 
