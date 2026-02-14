@@ -182,7 +182,7 @@ npm run pack
 #       index.js
 ```
 
-To install locally, extract the zip into the elements directory:
+Drop the `.zip` file into the elements directory:
 
 | App | Path |
 |-----|------|
@@ -190,7 +190,9 @@ To install locally, extract the zip into the elements directory:
 | **Server (Docker)** | `/app/data/elements/` |
 | **XSD (Windows)** | `%APPDATA%\JunctionRelay_XSD\elements\` |
 
-Only `package.json` and `dist/index.js` are needed — do not deploy `src/`, `node_modules/`, or config files. Restart the app. Your element appears in the Library palette with the icon, name, and description from the manifest. Drag it onto any layout canvas.
+The app automatically extracts the zip on next startup and deletes the zip file. If a folder with the same name already exists, the zip is skipped — delete the existing folder first to re-install.
+
+Restart the app. Your element appears in the Library palette with the icon, name, and description from the manifest. Drag it onto any layout canvas.
 
 ## Style Isolation Rules
 
