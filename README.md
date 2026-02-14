@@ -9,17 +9,17 @@ packages/
   protocol/   @junctionrelay/element-protocol — types, interfaces, constants
   sdk/        @junctionrelay/element-sdk — re-exports protocol + useElementHost() hook
 plugins/
-  hello-sensor/   Reference plugin — copy this to start a new plugin
+  junctionrelay.hello-sensor/   Reference plugin — copy this to start a new plugin
 ```
 
 ## Creating a Plugin
 
 ### 1. Copy the reference plugin
 
-Copy `plugins/hello-sensor/` to a new folder. This can be anywhere on your filesystem — plugins do NOT need to live inside this monorepo.
+Copy `plugins/junctionrelay.hello-sensor/` to a new folder. This can be anywhere on your filesystem — plugins do NOT need to live inside this monorepo.
 
 ```bash
-cp -r plugins/hello-sensor /path/to/my-plugin
+cp -r plugins/junctionrelay.hello-sensor /path/to/my-plugin
 cd /path/to/my-plugin
 ```
 
@@ -175,8 +175,8 @@ Run `npm run pack` to produce a `.zip` file containing only the two files the ho
 
 ```bash
 npm run pack
-# Produces: hello-sensor.zip
-#   hello-sensor/
+# Produces: junctionrelay.hello-sensor.zip
+#   junctionrelay.hello-sensor/
 #     package.json
 #     dist/
 #       index.js

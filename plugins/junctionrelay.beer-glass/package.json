@@ -35,7 +35,7 @@
   },
   "scripts": {
     "build": "esbuild src/index.tsx --bundle --platform=browser --format=esm --jsx=automatic --external:react --external:react-dom --external:react/jsx-runtime --external:@mui/material --external:@mui/icons-material --external:@emotion/react --external:@emotion/styled --external:@junctionrelay/element-sdk --outfile=dist/index.js",
-    "pack": "rm -rf out && mkdir -p out/beer-glass/dist && cp package.json out/beer-glass/ && cp dist/index.js out/beer-glass/dist/ && cd out && zip -r ../beer-glass.zip beer-glass && cd .. && rm -rf out",
+    "pack": "rm -rf out && mkdir -p out/junctionrelay.beer-glass/dist && cp package.json out/junctionrelay.beer-glass/ && cp dist/index.js out/junctionrelay.beer-glass/dist/ && cd out && zip -r ../junctionrelay.beer-glass.zip junctionrelay.beer-glass && cd .. && rm -rf out",
     "clean": "rm -rf dist out"
   },
   "license": "MIT",

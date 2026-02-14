@@ -36,7 +36,7 @@
   },
   "scripts": {
     "build": "esbuild src/index.tsx --bundle --platform=browser --format=esm --jsx=automatic --external:react --external:react-dom --external:react/jsx-runtime --external:@mui/material --external:@mui/icons-material --external:@emotion/react --external:@emotion/styled --external:@junctionrelay/element-sdk --outfile=dist/index.js",
-    "pack": "rm -rf out && mkdir -p out/hello-sensor/dist && cp package.json out/hello-sensor/ && cp dist/index.js out/hello-sensor/dist/ && cd out && zip -r ../hello-sensor.zip hello-sensor && cd .. && rm -rf out",
+    "pack": "rm -rf out && mkdir -p out/junctionrelay.hello-sensor/dist && cp package.json out/junctionrelay.hello-sensor/ && cp dist/index.js out/junctionrelay.hello-sensor/dist/ && cd out && zip -r ../junctionrelay.hello-sensor.zip junctionrelay.hello-sensor && cd .. && rm -rf out",
     "clean": "rm -rf dist out"
   },
   "license": "MIT",
