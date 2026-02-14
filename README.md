@@ -12,16 +12,30 @@ plugins/
   junctionrelay.hello-sensor/   Reference plugin — copy this to start a new plugin
 ```
 
+## Prerequisites
+
+- **Node.js 18+** — required for building and packing plugins
+- All commands work on Windows, macOS, and Linux — no WSL or Git Bash needed on Windows
+
 ## Creating a Plugin
 
 ### 1. Copy the reference plugin
 
 Copy `plugins/junctionrelay.hello-sensor/` to a new folder. This can be anywhere on your filesystem — plugins do NOT need to live inside this monorepo.
 
+**macOS / Linux:**
 ```bash
 cp -r plugins/junctionrelay.hello-sensor /path/to/my-plugin
 cd /path/to/my-plugin
 ```
+
+**Windows (PowerShell):**
+```powershell
+Copy-Item -Recurse plugins\junctionrelay.hello-sensor C:\path\to\my-plugin
+cd C:\path\to\my-plugin
+```
+
+**Windows (File Explorer):** Copy-paste the `plugins\junctionrelay.hello-sensor` folder to your desired location.
 
 **Standalone plugins work out of the box.** The reference plugin has no runtime dependencies — only devDependencies for type checking and building. `npm install` will work immediately outside the monorepo. The `@junctionrelay/element-sdk` import in your source code is externalized by esbuild (left as-is in the bundle) and resolved by the host app at runtime.
 
@@ -171,16 +185,13 @@ This runs esbuild to produce `dist/index.js` — a single ESM bundle.
 
 ### 5. Pack and Deploy
 
-Run `npm run pack` to produce a `.zip` file containing only the two files the host needs:
+Build and pack in one step (works on all platforms):
 
 ```bash
-npm run pack
-# Produces: junctionrelay.hello-sensor.zip
-#   junctionrelay.hello-sensor/
-#     package.json
-#     dist/
-#       index.js
+npm run build && npm run pack
 ```
+
+This produces `<elementType>.zip` containing `package.json` and `dist/index.js` — the only two files the host needs.
 
 Drop the `.zip` file into the elements directory:
 
