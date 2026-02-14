@@ -402,7 +402,7 @@ export interface RequiredPlugin {
   /** Always 'element' for element plugins. */
   type: 'element';
 
-  /** The elementName identifier (e.g. 'stock-ticker'). */
+  /** The elementName identifier (e.g. 'junctionrelay.stock-ticker'). */
   elementName: string;
 
   /** Package name (e.g. '@junctionrelay/element-stock-ticker'). */
