@@ -290,9 +290,6 @@ export interface DiscoveredElementPlugin {
 // Registry (runtime state after discovery + loading)
 // ---------------------------------------------------------------------------
 
-/** Distribution tier for security badging. */
-export type PluginTier = 'official' | 'community';
-
 /**
  * Runtime registry entry for a loaded (or failed-to-load) element plugin.
  * The host maintains a Map<elementType, PluginElementDefinition>.
@@ -306,9 +303,6 @@ export interface PluginElementDefinition {
 
   /** Package version from package.json. */
   version: string;
-
-  /** Distribution tier (official = ships with app, community = user-installed). */
-  tier: PluginTier;
 
   /** Whether the plugin bundle has been successfully loaded. */
   loaded: boolean;
@@ -346,7 +340,4 @@ export interface RequiredPlugin {
 
   /** Plugin author. */
   author: string;
-
-  /** Distribution tier at time of export. */
-  tier: PluginTier;
 }
