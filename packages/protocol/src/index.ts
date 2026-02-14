@@ -31,8 +31,31 @@ export const ELEMENT_CATEGORIES = [
 export type ElementCategory = (typeof ELEMENT_CATEGORIES)[number];
 
 /**
- * React and MUI packages that element plugins must externalize in their
- * esbuild config. The host app provides these at runtime.
+ * Packages that element plugins MUST externalize in their esbuild config.
+ * The host app provides these at runtime via the PluginLoader's shared
+ * dependency injection system.
+ *
+ * WHY these are shared:
+ *   - react / react-dom / react/jsx-runtime: React requires a single instance
+ *     per page. Two copies cause "hooks can only be called inside a function
+ *     component" errors.
+ *   - @mui/material / @mui/icons-material / @emotion/*: MUI theming uses
+ *     React context from the host's React instance. Already loaded (~300KB saved).
+ *   - @junctionrelay/element-sdk: The useElementHost() hook reads from a React
+ *     context provided by the host. Must share the same React instance.
+ *
+ * HOW the host provides them:
+ *   The FrameEngine PluginLoader exposes these on window globals, then rewrites
+ *   the plugin's `import ... from "react"` statements to `const ... = window.__GLOBAL__`
+ *   before loading the bundle via blob URL import(). Plugins don't need any
+ *   special setup — standard esbuild externals are all that's required.
+ *
+ * ANYTHING ELSE a plugin needs should be BUNDLED (not externalized).
+ *   esbuild inlines non-external deps automatically. A plugin using chart.js,
+ *   three.js, d3, or any other library simply doesn't add --external for it.
+ *
+ * Usage in esbuild:
+ *   EXTERNAL_PACKAGES.map(pkg => `--external:${pkg}`).join(' ')
  */
 export const EXTERNAL_PACKAGES = [
   'react',
