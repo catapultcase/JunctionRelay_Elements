@@ -231,6 +231,12 @@ export interface ElementPluginManifest {
    * Defaults to ['composite'] if omitted.
    */
   layoutModes?: LayoutMode[];
+
+  /** Plugin author name (e.g. 'JunctionRelay', 'CatapultCase'). */
+  authorName?: string;
+
+  /** Plugin author URL (e.g. homepage, GitHub profile). */
+  authorUrl?: string;
 }
 
 // ---------------------------------------------------------------------------
