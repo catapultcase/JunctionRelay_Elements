@@ -1,5 +1,5 @@
 {
-  "name": "@junctionrelay/element-fill-up",
+  "name": "@junctionrelay/element-beer-glass",
   "version": "1.0.0",
   "description": "Beer glass element that fills from 0–100% based on a sensor tag value",
   "type": "module",
@@ -10,8 +10,8 @@
   "junctionrelay": {
     "type": "element",
     "entry": "dist/index.js",
-    "elementType": "junctionrelay.fill-up",
-    "displayName": "Fill Up",
+    "elementType": "junctionrelay.beer-glass",
+    "displayName": "Beer Glass",
     "description": "A beer glass that fills up to 100% when bound to a sensor tag percentage input",
     "category": "Visualization",
     "icon": "SportsBar",
@@ -35,7 +35,7 @@
   },
   "scripts": {
     "build": "esbuild src/index.tsx --bundle --platform=browser --format=esm --jsx=automatic --external:react --external:react-dom --external:react/jsx-runtime --external:@mui/material --external:@mui/icons-material --external:@emotion/react --external:@emotion/styled --external:@junctionrelay/element-sdk --outfile=dist/index.js",
-    "pack": "rm -rf out && mkdir -p out/fill-up/dist && cp package.json out/fill-up/ && cp dist/index.js out/fill-up/dist/ && cd out && zip -r ../fill-up.zip fill-up && cd .. && rm -rf out",
+    "pack": "rm -rf out && mkdir -p out/beer-glass/dist && cp package.json out/beer-glass/ && cp dist/index.js out/beer-glass/dist/ && cd out && zip -r ../beer-glass.zip beer-glass && cd .. && rm -rf out",
     "clean": "rm -rf dist out"
   },
   "license": "MIT",
