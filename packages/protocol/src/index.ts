@@ -169,9 +169,14 @@ export interface ElementPluginManifest {
  * resolvedValues maps sensorTag → ResolvedSensorValue.
  */
 export interface ResolvedSensorValue {
-  value: string | number | boolean;
-  unit: string;
-  label: string;
+  /** Sensor value — number for most sensors, string for text, boolean for toggles, number[] for audio */
+  value?: string | number | boolean | number[];
+  /** Unit of measurement (e.g., "°C", "RPM") */
+  unit?: string;
+  /** Short label for the sensor */
+  label?: string;
+  /** Pre-formatted display string */
+  displayValue?: string;
 }
 
 /**
