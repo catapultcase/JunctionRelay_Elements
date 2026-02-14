@@ -1,0 +1,211 @@
+# JunctionRelay Elements
+
+Plugin system for creating custom FrameEngine elements. Element plugins are React components that render on the FrameEngine canvas alongside the 14 built-in element types.
+
+## Repository Structure
+
+```
+packages/
+  protocol/   @junctionrelay/element-protocol — types, interfaces, constants
+  sdk/        @junctionrelay/element-sdk — re-exports protocol + useElementHost() hook
+plugins/
+  hello-sensor/   Reference plugin — copy this to start a new plugin
+```
+
+## Creating a Plugin
+
+### 1. Copy the reference plugin
+
+Copy `plugins/hello-sensor/` to a new folder. This can be anywhere on your filesystem — plugins do NOT need to live inside this monorepo.
+
+```bash
+cp -r plugins/hello-sensor /path/to/my-plugin
+cd /path/to/my-plugin
+```
+
+### 2. Edit `package.json`
+
+Update the `junctionrelay` manifest — this is how the host app discovers your plugin:
+
+```json
+{
+  "name": "@yourname/element-my-thing",
+  "version": "1.0.0",
+  "type": "module",
+  "main": "dist/index.js",
+  "junctionrelay": {
+    "type": "element",
+    "entry": "dist/index.js",
+    "elementType": "my-thing",
+    "displayName": "My Thing",
+    "description": "Short description (max 120 chars)",
+    "category": "Data",
+    "icon": "Extension",
+    "emoji": "🔧",
+    "sensorTagCompatible": false,
+    "defaultSize": { "width": 200, "height": 100 },
+    "defaultProperties": {
+      "myProp": "default value"
+    },
+    "layoutModes": ["composite"]
+  }
+}
+```
+
+**Required manifest fields:** See `ElementPluginManifest` in `packages/protocol/src/index.ts` for the full interface.
+
+**Categories:** `Data`, `Media`, `Visualization`, `Effects`, `Utility`
+
+**Icons:** Any valid `@mui/icons-material` export name (e.g., `Sensors`, `TrendingUp`, `Timer`, `Extension`).
+
+### 3. Write your components
+
+A plugin exports two React components from its entry point:
+
+**`src/index.jsx`** (or `.tsx`):
+```jsx
+export { Renderer } from './Renderer.js';
+export { PropertiesPanel } from './PropertiesPanel.js';
+```
+
+**`src/Renderer.jsx`** — what appears on the canvas:
+```jsx
+import { useState, useEffect } from 'react';
+import { useElementHost } from '@junctionrelay/element-sdk';
+
+export const Renderer = ({ properties, resolvedValues, width, height, showPlaceholders }) => {
+  const { fonts } = useElementHost();
+
+  // Your render logic here
+  return (
+    <div style={{ width: '100%', height: '100%' }}>
+      {/* ... */}
+    </div>
+  );
+};
+```
+
+**`src/PropertiesPanel.jsx`** — the sidebar config panel:
+```jsx
+import { useCallback } from 'react';
+import { TextField, Slider, Box } from '@mui/material';
+
+export const PropertiesPanel = ({ selectedElement, onUpdateElement }) => {
+  const { id, properties } = selectedElement;
+
+  const update = useCallback(
+    (key, value) => {
+      onUpdateElement(id, { properties: { ...properties, [key]: value } });
+    },
+    [id, properties, onUpdateElement],
+  );
+
+  return (
+    <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+      {/* MUI controls that call update('propName', value) */}
+    </Box>
+  );
+};
+```
+
+### Props reference
+
+**Renderer receives** (`ElementRendererProps` from protocol):
+
+| Prop | Type | Description |
+|------|------|-------------|
+| `properties` | `Record<string, unknown>` | Your element's configured properties |
+| `resolvedValues` | `Record<string, ResolvedSensorValue>` | Live sensor values keyed by sensorTag |
+| `width` | `number` | Element width on canvas (pixels) |
+| `height` | `number` | Element height on canvas (pixels) |
+| `elementPadding` | `number` | Canvas padding setting |
+| `showPlaceholders` | `boolean` | Show placeholder values when no data |
+| `previewMode` | `boolean` | Canvas is in preview/capture mode |
+
+**PropertiesPanel receives** (`ElementPropertiesPanelProps` from protocol):
+
+| Prop | Type | Description |
+|------|------|-------------|
+| `selectedElement` | `{ id, type, properties, width, height }` | The selected element |
+| `onUpdateElement` | `(id, updates) => void` | Callback to update properties |
+| `onDeleteElement` | `(id) => void` | Callback to delete element |
+
+**Sensor values** (`ResolvedSensorValue`): `{ value, unit, label, displayValue }`
+
+### Host services
+
+Plugins access host services via the `useElementHost()` hook from `@junctionrelay/element-sdk`:
+
+```jsx
+const { fonts } = useElementHost();
+
+// Load a Google Font (returns Promise)
+await fonts.loadGoogleFont('Roboto Mono');
+
+// Check if a font is loaded
+fonts.isFontLoaded('Roboto Mono');
+
+// Load pixel fonts (Tom Thumb, Press Start 2P, Pixel Operator)
+fonts.loadPixelFonts();
+
+// Check if a font is a pixel font
+fonts.isPixelFont('Tom Thumb');
+```
+
+### 4. Build
+
+```bash
+npm install
+npm run build
+```
+
+This runs esbuild to produce `dist/index.js` — a single ESM bundle.
+
+**How it works:** The build script externalizes shared dependencies that the host app provides at runtime (React, MUI, Emotion, Element SDK). Everything else is bundled. See `EXTERNAL_PACKAGES` in `packages/protocol/src/index.ts` for the exact list.
+
+**Using `.jsx` vs `.tsx`:** Both work. If you use `.jsx`, you only need `esbuild` as a devDependency — no TypeScript or type packages needed. If you use `.tsx`, you'll also need `@types/react` and a `tsconfig.json` (see hello-sensor for the setup).
+
+**Standalone plugins** (outside this monorepo): If your plugin is NOT inside this monorepo, the `@junctionrelay/element-sdk` dependency in `package.json` won't resolve from npm (it's not published). That's fine — since it's externalized in esbuild, it doesn't need to be installed. Just remove it from `dependencies`. The import will be left as-is in the bundle and resolved by the host at runtime.
+
+### 5. Deploy
+
+Copy your plugin folder (must include `package.json` and `dist/index.js`) to the elements directory:
+
+| App | Path |
+|-----|------|
+| **Server (Windows)** | `%APPDATA%\JunctionRelay\elements\` |
+| **Server (Docker)** | `/app/data/elements/` |
+| **XSD (Windows)** | `%APPDATA%\JunctionRelay_XSD\elements\` |
+
+Restart the app. Your element appears in the Library palette with the icon, name, and description from the manifest. Drag it onto any layout canvas.
+
+## Style Isolation Rules
+
+Plugins render in the same DOM as the host application. You MUST follow these rules to avoid breaking the host UI:
+
+1. **No global style injection** — do not create `<style>` tags, `<link>` stylesheet tags, or modify `document.body.style`
+2. **Use host font services** — call `useElementHost().fonts.loadGoogleFont()` instead of injecting Google Fonts `<link>` tags directly
+3. **No broad CSS selectors** — no `*`, `body`, `html`, or bare element-type selectors
+4. **No `!important` on inherited properties** with broad selectors
+
+Use inline styles, CSS modules, or scoped CSS-in-JS (the host's shared Emotion instance). See `STYLE_ISOLATION_RULES` in `packages/protocol/src/index.ts` for details.
+
+Plugins that violate style isolation may be rejected from the marketplace.
+
+## Using Third-Party Libraries
+
+Any npm package not in the shared externals list can be used — esbuild bundles it into your `dist/index.js` automatically. Just install it and import it:
+
+```bash
+npm install chart.js
+```
+
+```jsx
+import { Chart } from 'chart.js';  // Bundled into dist/index.js (~200KB)
+```
+
+Only the 8 shared packages (listed in `EXTERNAL_PACKAGES`) are provided by the host. Everything else is your responsibility to bundle.
+
+## License
+
+MIT
