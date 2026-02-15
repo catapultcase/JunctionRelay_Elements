@@ -31,7 +31,8 @@
     },
     "layoutModes": [
       "composite"
-    ]
+    ],
+    "authorName": "JunctionRelay"
   },
   "scripts": {
     "build": "esbuild src/index.tsx --bundle --platform=browser --format=esm --jsx=automatic --external:react --external:react-dom --external:react/jsx-runtime --external:@mui/material --external:@mui/icons-material --external:@emotion/react --external:@emotion/styled --external:@junctionrelay/element-sdk --outfile=dist/index.js",
