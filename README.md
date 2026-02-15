@@ -63,10 +63,21 @@ Update the `junctionrelay` manifest — this is how the host app discovers your 
     "defaultProperties": {
       "myProp": "default value"
     },
-    "layoutModes": ["composite"]
+    "layoutModes": ["composite"],
+    "authorName": "Your Name",
+    "authorUrl": "https://github.com/yourname"
   }
 }
 ```
+
+#### Author Metadata
+
+| Field | Required | Description |
+|-------|----------|-------------|
+| `authorName` | Recommended | Display name shown in the Elements management tab |
+| `authorUrl` | Optional | Homepage or profile URL (rendered as clickable link) |
+
+When your plugin is distributed via JunctionRelay Cloud (FrameXchange), the marketplace adds two additional fields from your Clerk account: `authorId` and `authorAvatarUrl`. These are stored in the subscriber's local database alongside your manifest fields. **The UI always prefers Clerk data when available** — your Clerk display name and avatar override the manifest `authorName` in the subscriber's Elements tab. The manifest `authorName` is the fallback for users who install your plugin manually (ZIP drop).
 
 **Required manifest fields:** See `ElementPluginManifest` in `packages/protocol/src/index.ts` for the full interface.
 
