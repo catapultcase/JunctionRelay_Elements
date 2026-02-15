@@ -183,12 +183,29 @@ fonts.isPixelFont('Tom Thumb');
 
 ### 4. Build
 
+**Inside the monorepo** — run from the repo root so protocol and SDK are built first:
+
 ```bash
 npm install
 npm run build
 ```
 
-This runs esbuild to produce `dist/index.js` — a single ESM bundle.
+This builds `packages/protocol` → `packages/sdk` → all plugins in dependency order.
+
+To build a single plugin after the initial build:
+
+```bash
+npm run build -w plugins/junctionrelay.my-plugin
+```
+
+**Outside the monorepo** — run from your plugin directory:
+
+```bash
+npm install
+npm run build
+```
+
+Both produce `dist/index.js` — a single ESM bundle.
 
 **How it works:** The build script externalizes shared dependencies that the host app provides at runtime (React, MUI, Emotion, Element SDK). Everything else is bundled. See `EXTERNAL_PACKAGES` in `packages/protocol/src/index.ts` for the exact list.
 
