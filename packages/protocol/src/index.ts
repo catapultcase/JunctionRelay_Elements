@@ -144,6 +144,29 @@ export const STYLE_ISOLATION_RULES = [
 ] as const;
 
 // ---------------------------------------------------------------------------
+// UI Naming Conventions
+// ---------------------------------------------------------------------------
+
+/**
+ * Naming rules for plugin UI labels (PropertiesPanel, tooltips, etc.).
+ *
+ * JunctionRelay treats certain compound terms as single words.
+ * Plugin UIs must use these exact spellings in labels and descriptions:
+ *
+ *   - "SensorTag" — NOT "Sensor Tag" or "sensor tag"
+ *   - "FrameEngine" — NOT "Frame Engine"
+ *   - "FrameXchange" — NOT "Frame Xchange"
+ *
+ * The camelCase property name `sensorTag` in code is correct.
+ * The UI-facing label must be "SensorTag" (one word, PascalCase).
+ */
+export const UI_NAMING_CONVENTIONS = [
+  'SensorTag (one word) — not "Sensor Tag"',
+  'FrameEngine (one word) — not "Frame Engine"',
+  'FrameXchange (one word) — not "Frame Xchange"',
+] as const;
+
+// ---------------------------------------------------------------------------
 // Host Context (shared services the host provides to plugins via React context)
 // ---------------------------------------------------------------------------
 
