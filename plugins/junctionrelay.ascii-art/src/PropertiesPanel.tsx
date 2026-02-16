@@ -3,11 +3,21 @@ import {
   TextField,
   Switch,
   FormControlLabel,
-  Slider,
   Typography,
   Box,
+  ToggleButtonGroup,
+  ToggleButton,
 } from '@mui/material';
 import type { ElementPropertiesPanelProps } from '@junctionrelay/element-sdk';
+
+const FILL_CHARS = [
+  { value: '█', label: '█ Block' },
+  { value: '#', label: '# Hash' },
+  { value: '@', label: '@ At' },
+  { value: '*', label: '* Star' },
+  { value: '▓', label: '▓ Shade' },
+  { value: '░', label: '░ Light' },
+] as const;
 
 export const PropertiesPanel: React.FC<ElementPropertiesPanelProps> = ({
   selectedElement,
@@ -42,15 +52,26 @@ export const PropertiesPanel: React.FC<ElementPropertiesPanelProps> = ({
 
       <Box>
         <Typography variant="caption" gutterBottom>
-          Font Size: {properties.fontSize as number}px
+          Fill Character
         </Typography>
-        <Slider
+        <ToggleButtonGroup
+          value={(properties.fillChar as string) ?? '█'}
+          exclusive
+          onChange={(_, v) => { if (v !== null) update('fillChar', v); }}
           size="small"
-          min={8}
-          max={120}
-          value={(properties.fontSize as number) ?? 24}
-          onChange={(_, v) => update('fontSize', v)}
-        />
+          fullWidth
+          sx={{ mt: 0.5 }}
+        >
+          {FILL_CHARS.map((fc) => (
+            <ToggleButton
+              key={fc.value}
+              value={fc.value}
+              sx={{ fontFamily: 'monospace', fontSize: '0.85rem' }}
+            >
+              {fc.value}
+            </ToggleButton>
+          ))}
+        </ToggleButtonGroup>
       </Box>
 
       <TextField
@@ -58,7 +79,7 @@ export const PropertiesPanel: React.FC<ElementPropertiesPanelProps> = ({
         size="small"
         fullWidth
         type="color"
-        value={(properties.textColor as string) ?? '#FFFFFF'}
+        value={(properties.textColor as string) ?? '#00FF00'}
         onChange={(e) => update('textColor', e.target.value)}
         slotProps={{ inputLabel: { shrink: true } }}
       />
@@ -76,7 +97,7 @@ export const PropertiesPanel: React.FC<ElementPropertiesPanelProps> = ({
         control={
           <Switch
             size="small"
-            checked={(properties.showLabel as boolean) ?? true}
+            checked={(properties.showLabel as boolean) ?? false}
             onChange={(e) => update('showLabel', e.target.checked)}
           />
         }

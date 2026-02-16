@@ -1,0 +1,53 @@
+{
+  "name": "@junctionrelay/element-ascii-art",
+  "version": "1.0.0",
+  "description": "Element plugin — displays sensor values as ASCII art text",
+  "type": "module",
+  "main": "dist/index.js",
+  "files": [
+    "dist"
+  ],
+  "junctionrelay": {
+    "type": "element",
+    "entry": "dist/index.js",
+    "elementName": "junctionrelay.ascii-art",
+    "displayName": "ASCII Art",
+    "description": "Renders sensor values as large ASCII art characters with configurable fill style and color",
+    "category": "Visualization",
+    "icon": "Terminal",
+    "emoji": "🔤",
+    "sensorTagCompatible": true,
+    "defaultSize": {
+      "width": 300,
+      "height": 150
+    },
+    "defaultProperties": {
+      "sensorTag": "",
+      "label": "",
+      "fillChar": "█",
+      "textColor": "#00FF00",
+      "backgroundColor": "transparent",
+      "showLabel": false,
+      "showUnit": true
+    },
+    "layoutModes": [
+      "composite"
+    ],
+    "authorName": "JunctionRelay"
+  },
+  "scripts": {
+    "build": "esbuild src/index.tsx --bundle --platform=browser --format=esm --jsx=automatic --external:react --external:react-dom --external:react/jsx-runtime --external:@mui/material --external:@mui/icons-material --external:@emotion/react --external:@emotion/styled --external:@junctionrelay/element-sdk --outfile=dist/index.js",
+    "pack": "node ../../scripts/pack.mjs",
+    "clean": "node -e \"const fs=require('fs');fs.rmSync('dist',{recursive:true,force:true});fs.rmSync('out',{recursive:true,force:true})\""
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "@emotion/react": "^11.14.0",
+    "@emotion/styled": "^11.14.1",
+    "@mui/material": "^7.3.8",
+    "@types/react": "^19.2.14",
+    "esbuild": "^0.25.0",
+    "react": "^19.2.4",
+    "react-dom": "^19.2.4"
+  }
+}

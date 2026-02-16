@@ -23,7 +23,7 @@ export const PropertiesPanel: React.FC<ElementPropertiesPanelProps> = ({
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
       <TextField
-        label="Sensor Tag"
+        label="SensorTag"
         size="small"
         fullWidth
         value={(properties.sensorTag as string) ?? ''}
